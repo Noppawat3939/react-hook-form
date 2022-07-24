@@ -1,12 +1,15 @@
 import styled from "styled-components";
 import { TextLink, Text } from "../../components";
-import { STYLES } from "../../constants";
+
+import { VscFolderActive } from "react-icons/vsc";
 
 const Home = () => {
   return (
     <Container>
-      <Text text="react hook form" title />
-      <TextLink to="/start" text="get started" />
+      <Content>
+        <Text text="react hook form" title Icon={VscFolderActive} reverse />
+        <TextLink to="/start" text="get started" />
+      </Content>
     </Container>
   );
 };
@@ -14,5 +17,19 @@ const Home = () => {
 export default Home;
 
 const Container = styled.section`
-  text-align: center;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Content = styled.article`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  row-gap: 20px;
 `;

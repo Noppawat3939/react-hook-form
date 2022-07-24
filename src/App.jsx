@@ -1,8 +1,8 @@
 import { Routes, Route } from "react-router-dom";
-import { Home, Error, Start } from "./pages";
-import { Module1 } from "./pages/Modules";
 import { GlobalStyle } from "./styles";
-import { Container } from "./Layouts";
+import { Container } from "./layouts";
+import { ListRoutes } from "./routes/ListRoutes";
+import { useId } from "react";
 
 function App() {
   return (
@@ -10,10 +10,9 @@ function App() {
       <GlobalStyle />
       <Container>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="start" element={<Start />} />
-          <Route path="/start/module1" element={<Module1 />} />
-          <Route path="*" element={<Error />} />
+          {ListRoutes.map((route) => (
+            <Route path={route.path} element={route.component} key={useId()} />
+          ))}
         </Routes>
       </Container>
     </>

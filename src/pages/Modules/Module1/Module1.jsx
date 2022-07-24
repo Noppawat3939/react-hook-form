@@ -1,25 +1,27 @@
-import { useId } from "react";
+import { useId, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Button } from "../../../components";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import { Button, Label, Text, TextLink } from "../../../components";
 
 const Module1 = () => {
   const lists = [
     {
       id: useId(),
-      label: "first name",
+      label: "First name",
       placeHolder: "your first name",
       type: "text",
       maxLength: 6,
     },
     {
       id: useId(),
-      label: "last name",
+      label: "Last name",
       placeHolder: "your last name",
       type: "text",
     },
     {
       id: useId(),
-      label: "email",
+      label: "Email",
       placeHolder: "your email",
       type: "email",
       pattern:
@@ -27,7 +29,7 @@ const Module1 = () => {
     },
     {
       id: useId(),
-      label: "age",
+      label: "Age",
       placeHolder: "your age",
       type: "number",
       min: 1,
@@ -35,25 +37,29 @@ const Module1 = () => {
     },
   ];
 
+  const [updateData, setUpdetData] = useState(null);
+
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    clearErrors,
     reset,
+    formState: { errors },
   } = useForm();
 
   const onFormSubmit = (data) => {
-    console.log(data);
+    console.clear();
+    setUpdetData(data);
     reset();
   };
 
   return (
-    <div className="Module1_Container">
-      <h2>module 1</h2>
-      <form onSubmit={handleSubmit(onFormSubmit)}>
+    <ModuleContainer>
+      <Text title text="module 1" />
+      <Form onSubmit={handleSubmit(onFormSubmit)}>
         {lists.map((list) => (
-          <div key={list.id}>
-            <label htmlFor={list.label}>{list.label}: </label>
+          <FormControl key={list.id}>
+            <Label htmlFor={list.label} label={list.label} required />
             <input
               type={list.type}
               placeholder={list.placeHolder}
@@ -61,7 +67,7 @@ const Module1 = () => {
                 required: `${list.label} is required`,
                 maxLength: {
                   value: `${list.maxLength}`,
-                  message: `your ${list.label} exceeded the max length`,
+                  message: `your ${list.label} exceeded the max length (${list.maxLength} characters)`,
                 },
                 min: {
                   value: `${list.min}`,
@@ -77,13 +83,60 @@ const Module1 = () => {
                 },
               })}
             />
-            {errors[list.label] && <p>{errors[list.label].message}</p>}
-          </div>
+            {errors[list.label] && (
+              <Text text={errors[list.label].message} error />
+            )}
+          </FormControl>
         ))}
-        <Button title="submit" type="submit" />
-      </form>
-    </div>
+        <Buttons>
+          <Button title="submit" type="submit" />
+          <Button title="clear error" onClick={() => clearErrors()} pri />
+        </Buttons>
+        <br />
+        {updateData && (
+          <pre>
+            <Text des text={JSON.stringify(updateData)} />
+          </pre>
+        )}
+      </Form>
+      <TextLink to="/start" text="back" />
+    </ModuleContainer>
   );
 };
 
 export default Module1;
+
+const ModuleContainer = styled.div`
+  max-width: 500px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const Form = styled.form`
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  row-gap: 20px;
+  flex-direction: column;
+  width: 100%;
+`;
+
+const FormControl = styled.div`
+  width: 100%;
+
+  > input {
+    width: 100%;
+    padding: 5px;
+    margin: 5px 0;
+  }
+`;
+
+const Buttons = styled.span`
+  display: flex;
+  align-items: center;
+  column-gap: 30px;
+`;

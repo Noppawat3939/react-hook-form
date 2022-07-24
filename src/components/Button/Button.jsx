@@ -1,10 +1,17 @@
 import styled from "styled-components";
 import { STYLES } from "../../constants";
 
+const DEFAULT = { TYPE: "button" };
+
 const Button = (props) => {
-  const { title, type, onClick } = props;
+  const { title, type = DEFAULT.TYPE, onClick, disabled, pri } = props;
   return (
-    <ButtonContainer type={type} onClick={onClick}>
+    <ButtonContainer
+      type={type}
+      onClick={onClick}
+      disabled={disabled}
+      pri={pri}
+    >
       {title}
     </ButtonContainer>
   );
@@ -12,12 +19,21 @@ const Button = (props) => {
 
 export default Button;
 
+const handleBackground = (props) => {
+  if (props.disabled) return STYLES.AME_SILVER;
+
+  if (props.pri) return "transparent";
+
+  return STYLES.JAZZ_JAM;
+};
+
 const ButtonContainer = styled.button`
-  cursor: pointer;
-  color: ${STYLES.WHITE};
-  background: ${STYLES.JAZZ_JAM};
+  cursor: ${(props) => (props.disabled ? "default" : "pointer")};
+  color: ${(props) => (props.pri ? `${STYLES.JAZZ_JAM}` : `${STYLES.WHITE}`)};
+  background: ${(props) => handleBackground(props)};
+  border: 1px solid
+    ${(props) => (props.pri ? `${STYLES.JAZZ_JAM}` : "transparent")};
   text-transform: uppercase;
-  border: 0;
-  border-radius: 30px;
-  padding: 10px 20px;
+  border-radius: 6px;
+  padding: 8px 15px;
 `;
