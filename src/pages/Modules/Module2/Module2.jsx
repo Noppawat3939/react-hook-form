@@ -7,9 +7,13 @@ const Module2 = () => {
   const {
     register,
     handleSubmit,
+    resetField,
     clearErrors,
-    formState: { errors },
-  } = useForm();
+    formState: { errors, isSubmitSuccessful, isValid },
+  } = useForm({ mode: "onClick" });
+
+  //? >>> isSubmitSuccessful : when form success return Boolean
+  //? >>> isValid : when user is typing on keyboard return Boolean
 
   useEffect(() => {
     console.clear();
@@ -32,29 +36,31 @@ const Module2 = () => {
     },
   ];
 
-  const onhandleSubmit = (data) => {
+  const onhandleSubmit = async (data) => {
     console.log(data);
   };
+
+  console.log(
+    `isSubmitSuccessful : ${isSubmitSuccessful} | isValid : ${isValid}`
+  );
 
   return (
     <ModuleContainer>
       <Text title text="module2" />
       <Text des text="register" />
-      <form onSubmit={handleSubmit(onhandleSubmit)}>
-        {Valids.map((val) => (
-          <>
-            <div key={useId()}>
-              <Label htmlFor={val.label} label={val.label} required />
-              <input {...val.validate} />
-            </div>
-            {errors[val.label] && (
-              <Text error text={errors[val.label].message} />
-            )}
-          </>
-        ))}
-        <Button type="submit" title="submit" />
+      {Valids.map((val) => (
+        <>
+          <div key={useId()}>
+            <Label htmlFor={val.label} label={val.label} required />
+            <input {...val.validate} placeholder={val.label} />
+          </div>
+          {errors[val.label] && <Text error text={errors[val.label].message} />}
+        </>
+      ))}
+      <Buttons>
+        <Button title="submit" onClick={handleSubmit(onhandleSubmit)} />
         <Button title="clear errors" onClick={() => clearErrors()} pri />
-      </form>
+      </Buttons>
       <TextLink to="/start" text="back" />
     </ModuleContainer>
   );
@@ -69,4 +75,10 @@ const ModuleContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+const Buttons = styled.div`
+  display: flex;
+  column-gap: 10px;
+  margin: 20px 0;
 `;
