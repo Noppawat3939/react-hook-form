@@ -7,7 +7,6 @@ const Module2 = () => {
   const {
     register,
     handleSubmit,
-    resetField,
     clearErrors,
     formState: { errors, isSubmitSuccessful, isValid },
   } = useForm({ mode: "onClick" });
@@ -40,22 +39,18 @@ const Module2 = () => {
     console.log(data);
   };
 
-  console.log(
-    `isSubmitSuccessful : ${isSubmitSuccessful} | isValid : ${isValid}`
-  );
-
   return (
     <ModuleContainer>
       <Text title text="module2" />
       <Text des text="register" />
       {Valids.map((val) => (
-        <>
-          <div key={useId()}>
+        <div key={useId()}>
+          <span>
             <Label htmlFor={val.label} label={val.label} required />
             <input {...val.validate} placeholder={val.label} />
-          </div>
+          </span>
           {errors[val.label] && <Text error text={errors[val.label].message} />}
-        </>
+        </div>
       ))}
       <Buttons>
         <Button title="submit" onClick={handleSubmit(onhandleSubmit)} />

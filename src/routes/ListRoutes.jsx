@@ -1,5 +1,5 @@
 import { Error, Home, Start } from "../pages";
-import { Module1, Module2 } from "../pages/Modules";
+import { Module1, Module2, Module3 } from "../pages/Modules";
 
 export const ListRoutes = [
   {
@@ -17,6 +17,10 @@ export const ListRoutes = [
   {
     path: "/start/module2",
     component: <Module2 />,
+  },
+  {
+    path: "/start/module3",
+    component: <Module3 />,
   },
   {
     path: "*",

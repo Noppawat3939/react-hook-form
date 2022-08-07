@@ -12,6 +12,9 @@ const Start = () => {
     {
       text: "module 2",
     },
+    {
+      text: "module 3",
+    },
   ];
 
   return (
